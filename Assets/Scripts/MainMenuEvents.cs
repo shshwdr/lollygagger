@@ -29,6 +29,7 @@ public class MainMenuEvents : MonoBehaviour
 	public Image mFader;
      Text signinButtonText;
      Text authStatus;
+    GameObject achButton;
 	bool toBlack = false;
 	bool toClear = true;
 
@@ -44,6 +45,7 @@ public class MainMenuEvents : MonoBehaviour
         signinButtonText =
             GameObject.Find("signInButton").GetComponentInChildren<Text>();
         authStatus = GameObject.Find("authStatus").GetComponent<Text>();
+        achButton = GameObject.Find("achButton");
         EventSystem.current.firstSelectedGameObject = startButton;
 
         // ADD Play Game Services init code here.
@@ -57,6 +59,18 @@ public class MainMenuEvents : MonoBehaviour
         //try silent sign in
         PlayGamesPlatform.Instance.Authenticate(SignInCallback, true);
 	}
+
+    public void ShowAchievements()
+    {
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
+        {
+            PlayGamesPlatform.Instance.ShowAchievementsUI();
+        }
+        else
+        {
+            Debug.Log("can't show achievement, not logged in");
+        }
+    }
 
     public void SignIn()
     {
@@ -146,5 +160,9 @@ public class MainMenuEvents : MonoBehaviour
 		}
 	}
 
+    public void Update()
+    {
+        achButton.SetActive(Social.localUser.authenticated);
+    }
 
 }
