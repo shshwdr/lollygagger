@@ -15,6 +15,7 @@
  */
 using UnityEngine;
 using System.Collections;
+using GooglePlayGames;
 
 // Controls the Android "targets".
 public class DroidController : MonoBehaviour
@@ -66,6 +67,18 @@ public class DroidController : MonoBehaviour
 			rb.constraints = RigidbodyConstraints.None;
 			rb.useGravity = true;
 			Die ();
+
+            if (Social.localUser.authenticated)
+            {
+                PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_welcome, 100, (bool success) =>
+                {
+                    Debug.Log("lolly gagger welcom unlock "+success);
+                });
+                PlayGamesPlatform.Instance.IncrementAchievement(GPGSIds.achievement_sharpshooter, 1, (bool success) =>
+                {
+                    Debug.Log("lolly gagger sharpshooter increment "+success);
+                });
+            }
 		}
 	}
 
